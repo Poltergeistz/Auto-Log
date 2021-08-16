@@ -5,13 +5,11 @@ import ReactDom from "react-dom";
 import "./index.css";
 
 import data from "./data/data.json";
-// import AutoPart from "./Part";
-// import CustomInput from "./CustomForm";
 
 // DONE : On Change display value from user input and use it to compare lifetime
 // DONE : If the data contains info key render the information card else don't
 // TODO : On hover show information
-// TODO : User input should match a number only
+// DONE : User input should match a number only
 // DONE : BUGFIX - Some part are white when the userValue is equal to the avg lifetime car part
 class AutoPartsListing extends Component {
   constructor() {
@@ -24,7 +22,15 @@ class AutoPartsListing extends Component {
   };
 
   handleChange(e) {
-    this.setState({ value: e.target.value });
+    // User input check should happen here
+    function userInputShouldBeANum(userInput) {
+      const parsedInput = parseInt(userInput);
+      if (!isNaN(parsedInput)) return parsedInput;
+      if (isNaN(parsedInput)) return "";
+    }
+
+    // replace the target.value with the expected input : Number only
+    this.setState({ value: userInputShouldBeANum(e.target.value) });
   }
 
   render() {
@@ -32,7 +38,6 @@ class AutoPartsListing extends Component {
     const autoPart = ({ id, name, lifetime, info }) => {
       const isInfo = info ? <p className="info-text">{info}</p> : <Fragment />;
       const partLife = { good: "#90be6d", worn: "#f8961e", danger: "#f94144" };
-      const userKm = value;
 
       function compareLifetime(initialValue, userValue) {
         if (initialValue <= userValue) {
@@ -52,7 +57,7 @@ class AutoPartsListing extends Component {
         <div
           className="autopart-el"
           id={id}
-          style={{ backgroundColor: compareLifetime(lifetime, userKm) }}
+          style={{ backgroundColor: compareLifetime(lifetime, value) }}
         >
           <h3>{name}</h3>
           <p>
