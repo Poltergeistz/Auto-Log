@@ -25,8 +25,8 @@ class AutoPartsListing extends Component {
     // User input check should happen here
     function userInputShouldBeANum(userInput) {
       const parsedInput = parseInt(userInput);
-      if (!isNaN(parsedInput)) return parsedInput;
-      if (isNaN(parsedInput)) return "";
+      const isNum = Boolean(!isNaN(parsedInput)) ? parsedInput : "";
+      return isNum;
     }
 
     // replace the target.value with the expected input : Number only
