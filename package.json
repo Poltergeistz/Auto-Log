@@ -4,8 +4,10 @@
   "description": "App that list various parts from a car that helps you determine when youshould replace a part based on average Kms lifetime",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "watch:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
+    "build:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
+    "start": "npm run watch:css && react-scripts start",
+    "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test"
   },
   "author": "David Journo",
@@ -26,5 +28,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.3.1",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.7"
   }
 }
