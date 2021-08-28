@@ -7,6 +7,7 @@
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
     "build:css": "postcss src/assets/tailwind.css -o src/assets/index.css",
     "start": "npm run watch:css && react-scripts start",
+    "dev": "react-scripts start",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test"
   },
