@@ -26,7 +26,7 @@
   { "id": 12, "name": "culasse", "lifetime": 300000 },
   {
     "id": 13,
-    "name": "compresseur de climatisation",
+    "name": "compresseur clim",
     "lifetime": 150000
   },
   { "id": 14, "name": "démarreur", "lifetime": 150000 },
