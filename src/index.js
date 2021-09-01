@@ -1,19 +1,12 @@
 import React, { Component, Fragment } from "react";
 import ReactDom from "react-dom";
+import * as serviceWorker from "./sw-registration";
 
 // CSS
 import "./assets/index.css";
 
 import data from "./data/data.json";
 
-// DONE : On Change display value from user input and use it to compare lifetime
-// DONE : If the data contains info key render the information card else don't
-// DONE : On hover show information
-// DONE : User input should match a number only
-// DONE : BUGFIX - Some part are white when the userValue is equal to the avg lifetime car part
-// DONE : Problem to Fix : Tailwindcss does not handle <Progress> styling, find an elegant solution
-// TODO : Designing the app minimal and responsive
-// TODO : Error handling for UX
 class AutoLogApp extends Component {
   constructor() {
     super();
@@ -21,22 +14,21 @@ class AutoLogApp extends Component {
   }
 
   state = {
-    value: "",
+    value: 0,
   };
 
   handleChange(e) {
-    // User input check should happen here
     function userInputShouldBeANum(userInput) {
       const parsedInput = parseInt(userInput);
       const isNum = Boolean(!isNaN(parsedInput)) ? parsedInput : "";
       return isNum;
     }
 
-    // replace the target.value with the expected input : Number only
     this.setState({ value: userInputShouldBeANum(e.target.value) });
   }
 
   render() {
+    // CARD
     const value = this.state.value;
     const autoPart = ({ id, name, lifetime, info }) => {
       const isInfo = info ? (
@@ -53,7 +45,8 @@ class AutoLogApp extends Component {
       ) : (
         <Fragment />
       );
-      const partLife = { good: "#90be6d", worn: "#f8961e", danger: "#f94144" };
+
+      const partLife = { good: "#059669", worn: "#f8961e", danger: "#f94144" };
 
       function compareLifetime(initialValue, userValue) {
         if (initialValue <= userValue) {
@@ -72,48 +65,53 @@ class AutoLogApp extends Component {
 
       function valueIntoPercent(v, vmax) {
         let result = Math.floor((v / vmax) * 100);
-        return result + "%";
+        if (result >= 100) return "100%";
+        else return result + "%";
       }
+
       return (
-        <div className="">
+        <div className="" key={id}>
           <div
-            className="bg-white max-w-xs shadow-lg  mx-auto rounded-2xl overflow-hidden  hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer"
+            className="bg-white max-w-xs sm:max-w-md lg:max-w-lg md:max-w-lg shadow-lg  mx-auto rounded-2xl overflow-hidden  hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer"
             id={id}
-            style={{ backgroundColor: compareLifetime(lifetime, value) }}
           >
-            <div
-              className="flex flex-col h-28 justify-center items-center bg-cover bg-opacity-40"
-              style={{ backgroundImage: "url(https://picsum.photos/200)" }}
-            >
-              <h2 className="text-black tracking-widest uppercase text-sm">
+            <div className="card flex flex-col h-32 md:h-32 justify-center items-center bg-cover bg-gray-600 bg-opacity-25 py-4">
+              <h2 className="tracking-widest uppercase text-sm sm:text-xs md:text-xs">
                 {name}
               </h2>
-              <p className="text-black font-bold text-xl">
+              <p className="font-bold text-xl">
                 {lifetime.toLocaleString()} KM
               </p>
-              <div className="mt-2 h-4 relative w-60 rounded-full overflow-hidden">
+              <div className="mt-2 h-4 relative w-60 sm:w-36 rounded-full overflow-hidden">
                 <div className=" w-full h-full bg-white absolute "></div>
                 <div
-                  className=" h-full bg-gradient-to-r from-green-400 via-yellow-500 to-red-700 sm:bg-green-500 absolute"
+                  className=" h-full bg-gradient-to-r from-yellow-200 via-yellow-500 to-red-700 sm:bg-green-500 absolute"
                   style={{ width: valueIntoPercent(value, lifetime) }}
                 ></div>
               </div>
-              <div className="text-xs font-light italic">
+              <div
+                className="text-xs font-medium italic pt-2"
+                style={{ color: compareLifetime(lifetime, value) }}
+              >
                 {value.toLocaleString()}/{lifetime.toLocaleString()}
               </div>
             </div>
-            <div className="flex px-4 h-24">{isInfo}</div>
+            <div className="flex px-4 h-24 sm:h-26 md:h-36 lg:h-36">
+              {isInfo}
+            </div>
           </div>
         </div>
       );
     };
+
+    // USER INPUT FORM
     const customForm = (
-      <fieldset className="p-4 text-center bg-indigo-500 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5">
+      <fieldset className="p-4 text-center bg-yellow-500 grid grid-cols-1">
         <legend className="text-xl uppercase font-racing">
           Entrer son kilométrage
         </legend>
-        <div className="grid">
-          <div className="flex col-span-2 sm:pb-4 sm:col-span-1 md:col-span-1 lg:col-span-2 items-center py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="flex justify-center sm:pb-4 items-center py-4">
             <div className="flex bg-gray-100 p-4 w-72 space-x-4 rounded-lg flex-row">
               <svg
                 id="Layer_1"
@@ -140,33 +138,40 @@ class AutoLogApp extends Component {
               />
             </div>
           </div>
-          <div className="flex col-span-2 sm:pb-4 sm:col-span-1 md:col-span-1 lg:col-span-2 items-center bg-yellow-300 py-4 px-2 uppercase font-light text-lg">
-            Votre véhicule à {value.toLocaleString()} Km
+          <div className="flex justify-center sm:pb-4 items-center py-4 px-2 uppercase font-light text-lg">
+            Votre véhicule à
+            <span className="flex font-bold px-1">
+              {value.toLocaleString()}
+            </span>
+            Km
           </div>
         </div>
       </fieldset>
     );
+
+    // MAIN CONTENT
     return (
-      <div className="container">
+      <main className="container">
         <h1 className="text-4xl font-extrabold text-center p-6 uppercase font-racing">
           AutoLog
         </h1>
-        <p className="p-4 text-gray-500 text-center">
+        <p className="py-6 px-4 text-gray-800 text-center">
           Cette application n'a pas vocation à être fiable, elle permet
           uniquement d'informer l'utilisateur via un code couleur sur l'usure
           éventuelle des pièces de son véhicule basé sur son compteur
           kilométrique.
         </p>
         {customForm}
-        <section className="p-8 grid gap-4 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <section className="p-8 grid gap-4 grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5">
           {data.map((part, index) => {
-            console.log(part);
-            return autoPart({ ...part });
+            return autoPart({ ...part, key: index });
           })}
         </section>
-      </div>
+      </main>
     );
   }
 }
 
 ReactDom.render(<AutoLogApp />, document.getElementById("root"));
+
+serviceWorker.register();
