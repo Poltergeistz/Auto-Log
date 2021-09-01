@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
@@ -7,9 +9,7 @@ module.exports = {
       roboto: ["Roboto"],
     },
     extend: {
-      backgroundImage: (theme) => ({
-        lagoon: "url(/src/assets/lagoon.svg)",
-      }),
+      screens: { xs: "560px", ...defaultTheme.screens },
     },
   },
   variants: {
