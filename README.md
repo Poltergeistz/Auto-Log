@@ -6,7 +6,7 @@
 
 Disclamer : This app is not intended to be 100 % accurate because every manufacturer does not have the same lifetime on car parts, this is a rough estimation with extrapolated data from different websites. But, I tried my best to be close to the real numbers so the user can, with his own judgement, make a call on when she/he will have to change parts from her/his vehicle based on KMs.
 
-This app was solving one of my own problem, how can I keep track of my car parts lifetime and not ask to myself how did I let that part fail ?
+This app was solving one of my own problem, how can I keep track of my car parts lifetime and not ask myself how did I let that part fail ?
 
 I also wanted that my app will be usable everywhere and with offline support.
 
