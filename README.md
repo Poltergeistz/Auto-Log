@@ -1,6 +1,6 @@
 # Auto-Log
 
-![Social card](https://repository-images.githubusercontent.com/402507160/c2760c87-b9ce-4996-860c-181a58eff9b1)
+![Social card](https://repository-images.githubusercontent.com/402507160/3dbe657d-e5fb-4a5b-a3af-ea6010cbc67d)
 
 ## DOCUMENTATION
 
