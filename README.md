@@ -1,4 +1,4 @@
-# Auto-Log
+# Auto-Log [App](https://poltergeistz.github.io/auto-log/)
 
 ![Social card](https://repository-images.githubusercontent.com/402507160/3dbe657d-e5fb-4a5b-a3af-ea6010cbc67d)
 
